@@ -11,6 +11,8 @@ dependencies {
     implementation deps.poet
     implementation deps.apache.lang
     implementation deps.apache.collections
+    implementation 'javax.activation:javax.activation-api:1.2.0'
+
 }
 
 apply from: '../bintray.gradle'
