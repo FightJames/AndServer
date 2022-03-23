@@ -15,6 +15,8 @@
  */
 package com.yanzhenjie.andserver.sample.controller;
 
+import android.util.Log;
+
 import com.alibaba.fastjson.JSON;
 import com.yanzhenjie.andserver.annotation.Addition;
 import com.yanzhenjie.andserver.annotation.CookieValue;
@@ -34,6 +36,7 @@ import com.yanzhenjie.andserver.http.HttpResponse;
 import com.yanzhenjie.andserver.http.cookie.Cookie;
 import com.yanzhenjie.andserver.http.multipart.MultipartFile;
 import com.yanzhenjie.andserver.http.session.Session;
+import com.yanzhenjie.andserver.sample.App;
 import com.yanzhenjie.andserver.sample.component.LoginInterceptor;
 import com.yanzhenjie.andserver.sample.model.UserInfo;
 import com.yanzhenjie.andserver.sample.util.FileUtils;
@@ -94,6 +97,8 @@ class TestController {
         Session session = request.getValidSession();
         session.setAttribute(LoginInterceptor.LOGIN_ATTRIBUTE, true);
 
+        App.getInstance().getApplicationContext();
+
         Cookie cookie = new Cookie("account", account + "=" + password);
         response.addCookie(cookie);
         return "Login successful.";
@@ -114,6 +119,15 @@ class TestController {
         File localFile = FileUtils.createRandomFile(file);
         file.transferTo(localFile);
         return localFile.getAbsolutePath();
+    }
+
+    @PostMapping(path = "/uploadFile")
+    String uploadFile(@RequestParam(name = "file") MultipartFile file) throws IOException {
+//        File localFile = FileUtils.createRandomFile(file);
+//        file.transferTo(localFile);
+        Log.d("uploadFile", "receiver file " + file);
+//        return localFile.getAbsolutePath();
+        return "";
     }
 
     @GetMapping(path = "/consume", consumes = {"application/json", "!application/xml"})
